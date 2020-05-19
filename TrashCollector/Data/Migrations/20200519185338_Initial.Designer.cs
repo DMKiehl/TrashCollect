@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollector.Data;
 
 namespace TrashCollector.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200519185338_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,24 +50,10 @@ namespace TrashCollector.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "85aae2fe-9274-483b-a896-4812e189210b",
-                            ConcurrencyStamp = "d3b7c57f-0492-4759-b924-62968fa95911",
+                            Id = "0581bf69-6302-4ea7-ae26-f584e859fd76",
+                            ConcurrencyStamp = "3beacb18-19eb-4c6a-b978-566304dc3640",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
-                        },
-                        new
-                        {
-                            Id = "5278d142-5c8f-4afd-8e1d-082c7095e16a",
-                            ConcurrencyStamp = "6000dde4-d752-447a-9fbc-a38267cd9bfc",
-                            Name = "Employee",
-                            NormalizedName = "EMP"
-                        },
-                        new
-                        {
-                            Id = "c0b7d11d-6b70-4840-a1ce-649447874989",
-                            ConcurrencyStamp = "11859ba7-0cee-46d3-b129-e260b8634e37",
-                            Name = "Customer",
-                            NormalizedName = "CUST"
                         });
                 });
 
