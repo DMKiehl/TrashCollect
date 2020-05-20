@@ -27,22 +27,27 @@ namespace TrashCollector.Controllers
         public IActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-
-            var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             if (userId == null)
             {
-                return RedirectToAction("Register", "/Identify/Account");
+                return View();
             }
+
+
+            var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+
             if (customerProfile == null)
             {
-                return RedirectToAction("Create", "Customer");
+                return RedirectToAction("Create", "Customers");
             }
 
             else
             {
-                return RedirectToAction("Index", "Customer");
+                return RedirectToAction("Index", "Customers");
             }
-            
+
+
+            //return View();
+
         }
 
         public IActionResult Privacy()
