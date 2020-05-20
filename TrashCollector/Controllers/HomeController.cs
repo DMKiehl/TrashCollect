@@ -2,25 +2,47 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using TrashCollector.Data;
 using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        ApplicationDbContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            if (userId == null)
+            {
+                return RedirectToAction("Register", "/Identify/Account");
+            }
+            if (customerProfile == null)
+            {
+                return RedirectToAction("Create", "Customer");
+            }
+
+            else
+            {
+                return RedirectToAction("Index", "Customer");
+            }
+            
         }
 
         public IActionResult Privacy()

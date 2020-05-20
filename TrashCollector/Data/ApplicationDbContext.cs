@@ -4,6 +4,7 @@ using System.Text;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using TrashCollector.Models;
 
 namespace TrashCollector.Data
 {
@@ -14,6 +15,10 @@ namespace TrashCollector.Data
         {
         }
 
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Employee> Employees { get; set; }
+        public DbSet<Schedule> Schedules { get; set; }
+        public DbSet<Day> Days { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -36,7 +41,8 @@ namespace TrashCollector.Data
                         NormalizedName = "CUST"
                     }
 
-                ) ; 
+                );
         }
+         
     }
 }
