@@ -182,13 +182,27 @@ namespace TrashCollector.Controllers
             return View(display);
         }
 
-        public ActionResult ViewSchedule()
+        public ActionResult ViewSchedule(string sortOrder)
         {
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).AsEnumerable();
+            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 
+            switch (sortOrder)
+            {
+                case "Date":
+                    display = display.OrderBy(s => s.date);
+                    break;
+                case "date_desc":
+                    display = display.OrderByDescending(s => s.date);
+                    break;
+                default:
+                     display = display.OrderBy(s => s.CustomerAddress);
+                    break;
+            }
             return View(display);
         }
     }

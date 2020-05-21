@@ -7,17 +7,20 @@
 <h1>ViewSchedule</h1>
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Index">Home Page</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.date)
+                @Html.ActionLink("Date", "ViewSchedule", new { sortOrder = ViewBag.NameSortParm })
             </th>
             @*<th>
-                @Html.DisplayNameFor(model => model.PickedUp)
-            </th>*@
+            @Html.DisplayNameFor(model => model.date)
+        </th>*@
+            @*<th>
+            @Html.DisplayNameFor(model => model.PickedUp)
+        </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.holdStart)
             </th>
