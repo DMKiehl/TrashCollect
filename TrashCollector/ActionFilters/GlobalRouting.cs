@@ -29,11 +29,11 @@ namespace TrashCollector.ActionFilters
             {
                 if (_claimsPrincipal.IsInRole("Customer"))
                 {
-                    context.Result = new RedirectToActionResult("Index", "Home", null);
+                    context.Result = new RedirectToActionResult("Index", "Customers", null);
                 }
                 else if (_claimsPrincipal.IsInRole("Employee"))
                 {
-                    context.Result = new RedirectToActionResult("Index", "Employee", null);
+                    context.Result = new RedirectToActionResult("Index", "Employees", null);
                 }
             }
         }

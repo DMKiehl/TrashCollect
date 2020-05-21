@@ -28,17 +28,17 @@ namespace TrashCollector.Data
                     new IdentityRole
                     {
                         Name = "Admin",
-                        NormalizedName = "ADMIN"
+                        NormalizedName = "Admin"
                     },
                     new IdentityRole
                     {
                         Name = "Employee",
-                        NormalizedName = "EMP"
+                        NormalizedName = "Employee"
                     },
                     new IdentityRole
                     {
                         Name = "Customer",
-                        NormalizedName = "CUST"
+                        NormalizedName = "Customer"
                     }
 
                 );

@@ -20,7 +20,7 @@ namespace TrashCollector.Controllers
         ApplicationDbContext _context;
         //IdentityRole role;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context, IdentityRole Role)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
@@ -34,21 +34,20 @@ namespace TrashCollector.Controllers
             {
                 return View();
             }
-            if (IdentityRole.Name == "Customer")
-            {
-                var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
-                if (customerProfile == null)
-                {
-                    return RedirectToAction("Create", "Customers");
-                }
+            //var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
 
-                else
-                {
-                    return RedirectToAction("Index", "Customers");
-                }
-            }
-            else
+            //if (customerProfile == null)
+            //{
+            //    return RedirectToAction("Create", "Customers");
+            //}
+
+            //else
+            //{
+            //    return RedirectToAction("Index", "Customers");
+            //}
+            //}
+            //else
             {
                 var employeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
                 if (employeeProfile == null)
@@ -60,11 +59,11 @@ namespace TrashCollector.Controllers
                     return RedirectToAction("Index", "Employees");
                 }
             }
-            
-           
 
 
-           
+
+
+
 
 
             //return View();
