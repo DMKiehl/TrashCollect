@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<TrashCollector.Models.Schedule>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ViewSchedule";
 }
 
-<h1>Index</h1>
+<h1>ViewSchedule</h1>
 
 <p>
     <a asp-action="Create">Create New</a>
@@ -15,9 +15,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.date)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.PickedUp)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.holdStart)
             </th>
@@ -48,9 +48,9 @@
             <td>
                 @Html.DisplayFor(modelItem => item.date)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.PickedUp)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.holdStart)
             </td>
@@ -72,11 +72,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.day.Id)
             </td>
-            <td>
+            @*<td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
+            </td>*@
         </tr>
 }
     </tbody>

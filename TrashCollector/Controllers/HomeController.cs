@@ -45,7 +45,7 @@ namespace TrashCollector.Controllers
 
             else if (employeeProfile.Count == 1)
             {
-                return RedirectToAction("Index", "Employees");
+                return RedirectToAction("Schedule", "Employees");
             }
 
             else

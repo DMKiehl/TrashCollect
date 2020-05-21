@@ -32,10 +32,9 @@ namespace TrashCollector.Controllers
             {
                 return RedirectToAction("Create", "Employees");
             }
-            //var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            //var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).AsEnumerable();
-           
-            return RedirectToAction("Schedule", "Employees");
+
+            var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            return View(employee);
 
         }
 
@@ -179,6 +178,16 @@ namespace TrashCollector.Controllers
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).AsEnumerable();
+
+            return View(display);
+        }
+
+        public ActionResult ViewSchedule()
+        {
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).AsEnumerable();
 
             return View(display);
         }

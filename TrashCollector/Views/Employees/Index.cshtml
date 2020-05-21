@@ -1,85 +1,36 @@
-﻿@model IEnumerable<TrashCollector.Models.Schedule>
-
+﻿@model TrashCollector.Models.Employee
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Index";
 }
 
-<h1>View</h1>
+    <h1>Welcome @Html.DisplayFor(model => model.FirstName)!</h1>
+    <p>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit Profile</a> |
+        <a asp-action="Schedule">View Today's Schedule</a> |
+        <a asp-action="ViewSchedule">View Schedule</a>
+        <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
 
-<p>
-    <a asp-action="Edit">Edit Profile</a> |
-    <a asp-action="Delete">Delete Profile</a> |
-    <a asp-action="Details">View Your Profile</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.date)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.PickedUp)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.holdStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.holdEnd)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerAddress)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerZipCode)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.customer)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.DayName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.day)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.date.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.PickedUp)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.holdStart.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.holdEnd.Date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerAddress)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerZipCode)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.customer.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.day.Id)
-            </td>
-            @*<td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
-        </tr>
-}
-    </tbody>
-</table>
+    </p>
+
+<div>
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.FirstName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.FirstName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.LastName)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.LastName)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.ZipCode)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.ZipCode)
+        </dd>
+    </dl>
+</div>
