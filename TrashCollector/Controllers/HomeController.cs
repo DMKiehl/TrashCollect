@@ -18,13 +18,13 @@ namespace TrashCollector.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         ApplicationDbContext _context;
-        //IdentityRole role;
+  
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext context)
         {
             _logger = logger;
             _context = context;
-            //role = Role;
+
         }
 
         public IActionResult Index()
@@ -35,30 +35,9 @@ namespace TrashCollector.Controllers
                 return View();
             }
 
-            //var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            return View();
 
-            //if (customerProfile == null)
-            //{
-            //    return RedirectToAction("Create", "Customers");
-            //}
-
-            //else
-            //{
-            //    return RedirectToAction("Index", "Customers");
-            //}
-            //}
-            //else
-            {
-                var employeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-                if (employeeProfile == null)
-                {
-                    return RedirectToAction("Create", "Employees");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Employees");
-                }
-            }
+        }
 
 
 
@@ -68,7 +47,7 @@ namespace TrashCollector.Controllers
 
             //return View();
 
-        }
+        
 
         public IActionResult Privacy()
         {

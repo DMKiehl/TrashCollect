@@ -23,18 +23,10 @@ namespace TrashCollector.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
-            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            if (employeeProfile == null)
-            {
-                return RedirectToAction("Create", "Employees");
-            }
-            else
-            {
-                //return RedirectToAction("Index", "Employees");
+          
                 var applicationDbContext = _context.Employees.Include(e => e.IdentityUser);
                 return View(await applicationDbContext.ToListAsync());
-            }
+         
            
         }
 
@@ -60,8 +52,9 @@ namespace TrashCollector.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
+            Employee employee = new Employee();
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View();
+            return View(employee);
         }
 
         // POST: Employees/Create
