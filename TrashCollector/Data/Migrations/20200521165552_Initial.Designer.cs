@@ -10,8 +10,8 @@ using TrashCollector.Data;
 namespace TrashCollector.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200521000042_ChangedNameInNetRolesTable")]
-    partial class ChangedNameInNetRolesTable
+    [Migration("20200521165552_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,22 +50,22 @@ namespace TrashCollector.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "9f244a62-e7d8-48e0-b0c9-fc1e425951b8",
-                            ConcurrencyStamp = "8e448e6c-6a4d-4a2f-aeeb-ac46131b583e",
+                            Id = "4fb3b164-9280-4681-bc03-b01a0de4010e",
+                            ConcurrencyStamp = "cb7767ae-d394-4c93-be8b-0ae9727c6605",
                             Name = "Admin",
                             NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "f8133796-3131-4e1c-8031-618000384d45",
-                            ConcurrencyStamp = "6eb63101-eeb5-4549-9e1d-7af703fbbc60",
+                            Id = "88ab05b6-131e-4d3f-8fcd-ccd39e062555",
+                            ConcurrencyStamp = "d6823db5-9bce-4269-a894-4cb15dce7c32",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         },
                         new
                         {
-                            Id = "69ff0c34-16ea-4e05-ab44-022f6891d824",
-                            ConcurrencyStamp = "2d38fbc4-0764-429f-95ac-6f048a8c34ed",
+                            Id = "4def3fba-d097-4cd6-a743-581ecda5c9ef",
+                            ConcurrencyStamp = "4526a15e-6715-4c37-8463-aa46c6624d82",
                             Name = "Customer",
                             NormalizedName = "Customer"
                         });

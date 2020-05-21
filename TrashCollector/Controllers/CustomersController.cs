@@ -24,12 +24,20 @@ namespace TrashCollector.Controllers
         }
 
         // GET: Customers
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).ToList();
+            if (customerProfile.Count == 0)
+            {
+                return RedirectToAction("Create", "Customers");
+            }
+            //var user = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            //return View(user);
             
-                var applicationDbContext = _context.Customers.Include(c => c.IdentityUser);
-                return View(await applicationDbContext.ToListAsync());
-        
+            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            return View(customer);
+
         }
 
         // GET: Customers/Details/5
@@ -54,9 +62,9 @@ namespace TrashCollector.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            Customer customer = new Customer();
+            //Customer customer = new Customer();
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View(customer);
+            return View();
         }
 
         // POST: Customers/Create
@@ -68,6 +76,8 @@ namespace TrashCollector.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                customer.IdentityUserId = userId;
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -163,5 +173,24 @@ namespace TrashCollector.Controllers
         {
             return _context.Customers.Any(e => e.Id == id);
         }
+
+        public async Task<IActionResult> Schedule(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var customer = await _context.Schedules
+                .Include(c => c.CustomerId)
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (customer == null)
+            {
+                return NotFound();
+            }
+
+            return View(customer);
+        }
+
     }
 }

@@ -3,21 +3,19 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrashCollector.Data;
 
 namespace TrashCollector.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200520185443_Initial")]
-    partial class Initial
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.3")
+                .HasAnnotation("ProductVersion", "3.1.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -50,24 +48,24 @@ namespace TrashCollector.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "290aa935-5fd9-466a-8cc7-e384183f097f",
-                            ConcurrencyStamp = "b1e4ecb2-b7c0-4595-9597-87cdfab2468f",
+                            Id = "4fb3b164-9280-4681-bc03-b01a0de4010e",
+                            ConcurrencyStamp = "cb7767ae-d394-4c93-be8b-0ae9727c6605",
                             Name = "Admin",
-                            NormalizedName = "ADMIN"
+                            NormalizedName = "Admin"
                         },
                         new
                         {
-                            Id = "7ef1815d-169e-47ac-b5e2-e7bb00f9424f",
-                            ConcurrencyStamp = "ec153898-e869-499d-b944-a2dde684371b",
+                            Id = "88ab05b6-131e-4d3f-8fcd-ccd39e062555",
+                            ConcurrencyStamp = "d6823db5-9bce-4269-a894-4cb15dce7c32",
                             Name = "Employee",
-                            NormalizedName = "EMP"
+                            NormalizedName = "Employee"
                         },
                         new
                         {
-                            Id = "c45fd83b-7c50-4211-8759-5339494d8ff3",
-                            ConcurrencyStamp = "e3c6926c-b2aa-4ea4-804c-ff1851caf243",
+                            Id = "4def3fba-d097-4cd6-a743-581ecda5c9ef",
+                            ConcurrencyStamp = "4526a15e-6715-4c37-8463-aa46c6624d82",
                             Name = "Customer",
-                            NormalizedName = "CUST"
+                            NormalizedName = "Customer"
                         });
                 });
 

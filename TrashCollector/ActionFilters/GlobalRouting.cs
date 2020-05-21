@@ -14,12 +14,12 @@ namespace TrashCollector.ActionFilters
 
 
         private readonly ClaimsPrincipal _claimsPrincipal;
-        ApplicationDbContext _context;
+    
 
-        public GlobalRouting(ClaimsPrincipal claimsPrincipal, ApplicationDbContext context) 
+        public GlobalRouting(ClaimsPrincipal claimsPrincipal) 
         { 
             _claimsPrincipal = claimsPrincipal;
-            _context = context;
+            //_context = context;
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
