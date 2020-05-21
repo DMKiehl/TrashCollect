@@ -15,6 +15,10 @@ namespace TrashCollector.Models
         public DateTime date { get; set; }
 
         public bool PickedUp { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime holdStart { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime holdEnd { get; set; }
 
         [ForeignKey("Customer")]
         public int CustomerId { get; set; }

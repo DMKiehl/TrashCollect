@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
+using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -14,20 +15,28 @@ namespace TrashCollector.Controllers
     public class EmployeesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public DateTime today;
 
         public EmployeesController(ApplicationDbContext context)
         {
             _context = context;
+            today = DateTime.Today;
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
-          
-                var applicationDbContext = _context.Employees.Include(e => e.IdentityUser);
-                return View(await applicationDbContext.ToListAsync());
-         
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).ToList();
+            if (employeeProfile.Count == 0)
+            {
+                return RedirectToAction("Create", "Employees");
+            }
+            //var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            //var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).AsEnumerable();
            
+            return RedirectToAction("Schedule", "Employees");
+
         }
 
         // GET: Employees/Details/5
@@ -52,9 +61,9 @@ namespace TrashCollector.Controllers
         // GET: Employees/Create
         public IActionResult Create()
         {
-            Employee employee = new Employee();
+            //Employee employee = new Employee();
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
-            return View(employee);
+            return View();
         }
 
         // POST: Employees/Create
@@ -66,6 +75,8 @@ namespace TrashCollector.Controllers
         {
             if (ModelState.IsValid)
             {
+                var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+                employee.IdentityUserId = userId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
@@ -160,6 +171,16 @@ namespace TrashCollector.Controllers
         private bool EmployeeExists(int id)
         {
             return _context.Employees.Any(e => e.Id == id);
+        }
+
+        public ActionResult Schedule()
+        {
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).AsEnumerable();
+
+            return View(display);
         }
     }
 }

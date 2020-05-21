@@ -35,18 +35,24 @@ namespace TrashCollector.Controllers
                 return View();
             }
 
-            return View();
+            var customerProfile = _context.Customers.Where(c => c.IdentityUserId == userId).ToList();
+            var employeeProfile = _context.Employees.Where(e => e.IdentityUserId == userId).ToList();
 
+            if (customerProfile.Count == 1)
+            {
+                return RedirectToAction("Index", "Customers");
+            }
+
+            else if (employeeProfile.Count == 1)
+            {
+                return RedirectToAction("Index", "Employees");
+            }
+
+            else
+            {
+                return View();
+            }
         }
-
-
-
-
-
-
-
-            //return View();
-
         
 
         public IActionResult Privacy()

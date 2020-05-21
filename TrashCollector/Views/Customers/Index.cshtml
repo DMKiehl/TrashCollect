@@ -7,10 +7,12 @@
 <h1>Welcome @Html.DisplayFor(model => model.FirstName)!</h1>
 
 <p>
-    <a asp-action="Create">Create Profile</a>
-    <a asp-action="Details">View Profile</a>
+    <a asp-action="Details" asp-route-id="@Model.Id">View Profile</a> |
+    <a asp-action="Schedule" asp-route-id="@Model.Id">Your Pickup</a> |
+    <a asp-action="Delete" asp-route-id="@Model.Id">Delete</a>
+
 </p>
-@*<div>
+<div>
     <dl class="row">
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.FirstName)
@@ -24,9 +26,14 @@
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.LastName)
         </dd>
-        
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.BillTotal)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.BillTotal)
+        </dd>
     </dl>
 </div>
 <div>
-</div>*@
+</div>
 

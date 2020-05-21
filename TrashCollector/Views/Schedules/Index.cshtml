@@ -1,15 +1,13 @@
 ﻿@model IEnumerable<TrashCollector.Models.Schedule>
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Index";
 }
 
-<h1>View</h1>
+<h1>Index</h1>
 
 <p>
-    <a asp-action="Edit">Edit Profile</a> |
-    <a asp-action="Delete">Delete Profile</a> |
-    <a asp-action="Details">View Your Profile</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
@@ -48,16 +46,16 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.date.Date)
+                @Html.DisplayFor(modelItem => item.date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.PickedUp)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.holdStart.Date)
+                @Html.DisplayFor(modelItem => item.holdStart)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.holdEnd.Date)
+                @Html.DisplayFor(modelItem => item.holdEnd)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerAddress)
@@ -74,11 +72,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.day.Id)
             </td>
-            @*<td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
+            </td>
         </tr>
 }
     </tbody>
