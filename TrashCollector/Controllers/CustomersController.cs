@@ -13,14 +13,16 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
-    //[Authorize(Roles = "Customer")]
+    [Authorize(Roles = "Customer")]
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public DateTime today;
 
         public CustomersController(ApplicationDbContext context)
         {
             _context = context;
+            today = DateTime.Today;
         }
 
         // GET: Customers
@@ -174,21 +176,10 @@ namespace TrashCollector.Controllers
             return _context.Customers.Any(e => e.Id == id);
         }
 
-        public async Task<IActionResult> Schedule(int? id)
+       
+        public ActionResult Schedule(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Schedules
-                .Include(c => c.CustomerId)
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-
+            var customer = _context.Schedules.Where(s => s.CustomerId == id).Where(s => s.date >= today.Date).SingleOrDefault();
             return View(customer);
         }
 
