@@ -183,5 +183,39 @@ namespace TrashCollector.Controllers
             return View(customer);
         }
 
+        public ActionResult SchedulePickUp()
+        {
+            Schedule schedule = new Schedule();
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult SchedulePickup(Schedule schedule)
+        {
+
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var id = customer.Id;
+            var address = customer.StreetAddress;
+            var zipCode = customer.ZipCode;
+            try
+            {
+                schedule.CustomerId = id;
+                schedule.CustomerAddress = address;
+                schedule.CustomerZipCode = zipCode;
+                _context.Schedules.Add(schedule);
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Schedule));
+            }
+
+            catch
+            {
+                return View();
+            }
+           
+        }
+
     }
 }
