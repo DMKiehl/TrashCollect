@@ -33,7 +33,16 @@
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for-"BillTotal" />
-            <input type="hidden" asp-for-"IdentityUserId" />           
+            <input type="hidden" asp-for-"IdentityUserId" />
+            <input type="hidden" asp-for-"DayofWeek" />
+            @*<div class="form-group">
+                <label asp-for="DayofWeek" class="control-label"></label>
+                <select asp-for="DayofWeek" class="form-control" asp-items="ViewBag.DayofWeek"></select>
+            </div>*@
+            <input type="hidden" asp-for-"holdEnd" />
+            <input type="hidden" asp-for-"holdStart" />
+
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

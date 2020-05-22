@@ -18,11 +18,13 @@ namespace TrashCollector.Controllers
     {
         private readonly ApplicationDbContext _context;
         public DateTime today;
+        //public DateTime weekDay;
 
         public EmployeesController(ApplicationDbContext context)
         {
             _context = context;
             today = DateTime.Today;
+           
         }
 
         // GET: Employees
@@ -176,20 +178,21 @@ namespace TrashCollector.Controllers
 
         public ActionResult Schedule()
         {
-
+            var weekday = today.DayOfWeek.ToString();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).Where(s => s.PickedUp == false).AsEnumerable();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.DayName == weekday).Where(s => s.PickedUp == false).AsEnumerable();
+          
 
             return View(display);
         }
 
         public ActionResult ViewSchedule(string sortOrder)
         {
-
+            var weekday = today.DayOfWeek.ToString();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date >= today.Date).AsEnumerable();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).AsEnumerable();
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
 

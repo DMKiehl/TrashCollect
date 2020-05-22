@@ -18,12 +18,12 @@
             <th>
                 @Html.DisplayNameFor(model => model.PickedUp)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.holdStart)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.holdEnd)
-            </th>
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.CustomerAddress)
             </th>
@@ -54,12 +54,12 @@
             <td>
                 <a asp-action="PickedUp" asp-route-id="@item.Id">Mark As Complete</a>
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.holdStart.Date)
             </td> 
             <td>
                 @Html.DisplayFor(modelItem => item.holdEnd.Date)
-            </td>
+            </td>*@
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerAddress)
             </td>

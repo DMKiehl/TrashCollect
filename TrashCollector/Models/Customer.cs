@@ -17,9 +17,17 @@ namespace TrashCollector.Models
         public string StreetAddress { get; set; }
         public int ZipCode { get; set; }
 
+        public string DayofWeek { get; set; }
+
         public double BillTotal { get; set; }
 
-        [ForeignKey("IdentityUser")]
+        [Column(TypeName = "date")]
+        public DateTime holdStart { get; set; }
+        [Column(TypeName = "date")]
+        public DateTime holdEnd { get; set; }
+
+
+            [ForeignKey("IdentityUser")]
         public string IdentityUserId { get; set; }
         public IdentityUser IdentityUser { get; set; }
 

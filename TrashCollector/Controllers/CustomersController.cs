@@ -18,11 +18,13 @@ namespace TrashCollector.Controllers
     {
         private readonly ApplicationDbContext _context;
         public DateTime today;
+        
 
         public CustomersController(ApplicationDbContext context)
         {
             _context = context;
             today = DateTime.Today;
+            
         }
 
         // GET: Customers
@@ -64,7 +66,7 @@ namespace TrashCollector.Controllers
         // GET: Customers/Create
         public IActionResult Create()
         {
-            //Customer customer = new Customer();
+            
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id");
             return View();
         }
@@ -88,57 +90,35 @@ namespace TrashCollector.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public ActionResult Edit(int id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var customer = await _context.Customers.FindAsync(id);
-            if (customer == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
+            var customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
+
         }
 
-        // POST: Customers/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,StreetAddress,ZipCode,BillTotal,IdentityUserId")] Customer customer)
+        public ActionResult Edit(int id, Customer customer)
         {
-            if (id != customer.Id)
+            try
             {
-                return NotFound();
+                var user = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                user.FirstName = customer.FirstName;
+                user.LastName = customer.LastName;
+                user.StreetAddress = customer.StreetAddress;
+                user.ZipCode = customer.ZipCode;
+                user.DayofWeek = customer.DayofWeek;
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+
             }
 
-            if (ModelState.IsValid)
+            catch
             {
-                try
-                {
-                    _context.Update(customer);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!CustomerExists(customer.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
+                return View();
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", customer.IdentityUserId);
-            return View(customer);
+   
         }
 
         // GET: Customers/Delete/5
@@ -179,12 +159,15 @@ namespace TrashCollector.Controllers
        
         public ActionResult Schedule(int id)
         {
-            var customer = _context.Schedules.Where(s => s.CustomerId == id).Where(s => s.date >= today.Date).SingleOrDefault();
+            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
         }
 
         public ActionResult SchedulePickUp()
         {
+            var names = _context.Days.Select(s => s.Name).ToList();
+            ViewBag.DayName = names;
             Schedule schedule = new Schedule();
             return View();
         }

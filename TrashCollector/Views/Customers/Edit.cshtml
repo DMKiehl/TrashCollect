@@ -33,8 +33,35 @@
                 <input asp-for="ZipCode" class="form-control" />
                 <span asp-validation-for="ZipCode" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for-"BillTotal" />
-            <input type="hidden" asp-for-"IdentityUserId" />          
+            <div class="form-group">
+                <label asp-for="DayofWeek" class="control-label"></label>
+                <input asp-for="DayofWeek" class="form-control" />
+                <span asp-validation-for="DayofWeek" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="BillTotal" />
+            @*<div class="form-group">
+                <label asp-for="BillTotal" class="control-label"></label>
+                <input asp-for="BillTotal" class="form-control" />
+                <span asp-validation-for="BillTotal" class="text-danger"></span>
+            </div>*@
+            <input type="hidden" asp-for="holdStart" />
+            @*<div class="form-group">
+            <label asp-for="holdStart" class="control-label"></label>
+            <input asp-for="holdStart" class="form-control" />
+            <span asp-validation-for="holdStart" class="text-danger"></span>
+        </div>*@
+            <input type="hidden" asp-for="holdEnd" />
+            @*<div class="form-group">
+            <label asp-for="holdEnd" class="control-label"></label>
+            <input asp-for="holdEnd" class="form-control" />
+            <span asp-validation-for="holdEnd" class="text-danger"></span>
+        </div>*@
+            <input type="hidden" asp-for="IdentityUserId" />
+            @*<div class="form-group">
+            <label asp-for="IdentityUserId" class="control-label"></label>
+            <select asp-for="IdentityUserId" class="form-control" asp-items="ViewBag.IdentityUserId"></select>
+            <span asp-validation-for="IdentityUserId" class="text-danger"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
@@ -46,6 +73,3 @@
     <a asp-action="Index">Back to List</a>
 </div>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
