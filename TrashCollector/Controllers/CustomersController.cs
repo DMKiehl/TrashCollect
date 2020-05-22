@@ -194,7 +194,8 @@ namespace TrashCollector.Controllers
 
         public ActionResult SchedulePickup(Schedule schedule)
         {
-
+           
+          
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var id = customer.Id;
@@ -202,6 +203,7 @@ namespace TrashCollector.Controllers
             var zipCode = customer.ZipCode;
             try
             {
+                schedule.DayId = AssignDayId(schedule);
                 schedule.CustomerId = id;
                 schedule.CustomerAddress = address;
                 schedule.CustomerZipCode = zipCode;
@@ -215,6 +217,35 @@ namespace TrashCollector.Controllers
                 return View();
             }
            
+        }
+
+        public int AssignDayId(Schedule schedule)
+        {
+            switch (schedule.DayName)
+            {
+                case "Sunday":
+                    schedule.DayId = 1;
+                    break;
+                case "Monday":
+                    schedule.DayId = 2;
+                    break;
+                case "Tuesday":
+                    schedule.DayId = 3;
+                    break;
+                case "Wednesday":
+                    schedule.DayId = 4;
+                    break;
+                case "Thursday":
+                    schedule.DayId = 5;
+                    break;
+                case "Friday":
+                    schedule.DayId = 6;
+                    break;
+                case "Saturday":
+                    schedule.DayId = 7;
+                    break;
+            }
+            return schedule.DayId;
         }
 
     }
