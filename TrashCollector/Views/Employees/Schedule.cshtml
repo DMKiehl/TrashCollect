@@ -36,9 +36,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.DayName)
             </th>
-            <th>
+            @*<th>
                 @Html.DisplayNameFor(model => model.day)
-            </th>
+            </th>*@
             <th></th>
         </tr>
     </thead>
@@ -46,16 +46,19 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.date)
+                @Html.DisplayFor(modelItem => item.date.Date)
             </td>
-            <td>
+            @*<td>
                 @Html.DisplayFor(modelItem => item.PickedUp)
+            </td>*@ 
+            <td>
+                <a asp-action="PickedUp" asp-route-id="@item.Id">Mark As Complete</a>
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.holdStart)
+                @Html.DisplayFor(modelItem => item.holdStart.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.holdEnd)
+                @Html.DisplayFor(modelItem => item.holdEnd.Date)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerAddress)
@@ -64,18 +67,16 @@
                 @Html.DisplayFor(modelItem => item.CustomerZipCode)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.customer.Id)
+                @Html.DisplayFor(modelItem => item.CustomerId)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.DayName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.day.Id)
-            </td>
             @*<td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                @Html.DisplayFor(modelItem => item.DayId)
+            </td>*@
+            @*<td>
+                <asp:Button id="PickedUp" runat="server" Text="Picked Up" OnClick="PickedUp"/>
             </td>*@
         </tr>
 }

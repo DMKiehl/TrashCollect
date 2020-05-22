@@ -177,7 +177,7 @@ namespace TrashCollector.Controllers
 
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).AsEnumerable();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).Where(s => s.PickedUp == false).AsEnumerable();
 
             return View(display);
         }
@@ -204,6 +204,18 @@ namespace TrashCollector.Controllers
                     break;
             }
             return View(display);
+        }
+
+        public ActionResult PickedUp(int id)
+        {
+            
+            var schedule = _context.Schedules.Where(s => s.Id == id).SingleOrDefault();
+            var customer = _context.Customers.Where(c => c.Id == schedule.CustomerId).SingleOrDefault();
+            schedule.PickedUp = true;
+            customer.BillTotal += 10;
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Schedule));
+           
         }
     }
 }
