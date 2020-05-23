@@ -1,0 +1,66 @@
+﻿@model IEnumerable<TrashCollector.Models.Schedule>
+
+@{
+    ViewData["Title"] = "DailySchedule";
+}
+
+<h1>DailySchedule</h1>
+
+<p>
+    <a asp-action="Index">Home Page</a>
+</p>>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.date)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PickedUp)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CustomerZipCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.customer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DayName)
+            </th>
+            
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.date)
+            </td>
+
+            <td>
+                <a asp-action="PickedUp" asp-route-id="@item.Id">Mark As Complete</a>
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerAddress)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CustomerZipCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.customer.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayName)
+            </td>
+
+            <td>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>

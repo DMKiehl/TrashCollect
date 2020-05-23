@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
-using AspNetCore;
+//using AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -166,7 +166,7 @@ namespace TrashCollector.Controllers
             var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).AsEnumerable();
             //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
             ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
-
+            
             switch (sortOrder)
             {
                 case "Date":
@@ -197,15 +197,26 @@ namespace TrashCollector.Controllers
         public void PrepareDailySchedule()
         {
             var weekday = today.DayOfWeek.ToString();
-            var customers = _context.Customers.Where(c => c.DayofWeek == weekday).AsEnumerable();
+            var customers = _context.Customers.Where(c => c.DayofWeek == weekday).ToList();
 
-
+            var onHold = new List<Customer>();
+            var pickUp = new List<Customer>();
             foreach (var item in customers)
             {
-                //if (item.holdStart == today.Date || (item.holdStart < today.Date && today.Date <= item.holdEnd))
-                //{
-                //    customers.Remove(item);
-                //}
+                if (item.holdStart == today.Date || (item.holdStart < today.Date && today.Date <= item.holdEnd))
+                {
+                    onHold.Add(item);
+                }
+
+                else
+                {
+                    pickUp.Add(item);
+                }
+            }
+
+            foreach (var item in pickUp)
+            {
+                
 
                 Schedule schedule = new Schedule();
                 schedule.date = today.Date;
@@ -250,6 +261,17 @@ namespace TrashCollector.Controllers
                     break;
             }
             return dayId;
+        }
+
+        public ActionResult DailySchedule()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var weekday = today.DayOfWeek.ToString();
+            var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).Where(s => s.PickedUp == false).AsEnumerable();
+
+
+            return View(display);
         }
     }
 }
