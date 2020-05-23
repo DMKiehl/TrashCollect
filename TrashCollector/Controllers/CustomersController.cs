@@ -27,7 +27,6 @@ namespace TrashCollector.Controllers
             
         }
 
-        // GET: Customers
         public ActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -36,15 +35,12 @@ namespace TrashCollector.Controllers
             {
                 return RedirectToAction("Create", "Customers");
             }
-            //var user = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            //return View(user);
             
             var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             return View(customer);
 
         }
 
-        // GET: Customers/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -63,7 +59,6 @@ namespace TrashCollector.Controllers
             return View(customer);
         }
 
-        // GET: Customers/Create
         public IActionResult Create()
         {
             
@@ -71,9 +66,6 @@ namespace TrashCollector.Controllers
             return View();
         }
 
-        // POST: Customers/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetAddress,ZipCode,BillTotal,IdentityUserId")] Customer customer)
@@ -121,7 +113,6 @@ namespace TrashCollector.Controllers
    
         }
 
-        // GET: Customers/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -140,7 +131,6 @@ namespace TrashCollector.Controllers
             return View(customer);
         }
 
-        // POST: Customers/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
@@ -159,26 +149,21 @@ namespace TrashCollector.Controllers
        
         public ActionResult Schedule(int id)
         {
-            //var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
         }
 
         public ActionResult SchedulePickUp()
         {
-            //var names = _context.Days.Select(s => s.Name).ToList();
-            //ViewBag.DayName = names;
             Schedule schedule = new Schedule();
             return View();
         }
 
-        [HttpPost]
+        [HttpPost, ActionName("SchedulePickUp")]
         [ValidateAntiForgeryToken]
 
         public ActionResult SchedulePickUp(Schedule schedule)
         {
-           
-          
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var id = customer.Id;
@@ -193,14 +178,13 @@ namespace TrashCollector.Controllers
                 schedule.PickedUp = false;
                 _context.Schedules.Add(schedule);
                 _context.SaveChanges();
-                return RedirectToAction(nameof(Schedule));
+                return RedirectToAction(nameof(Index));
             }
 
             catch
             {
                 return View();
-            }
-           
+            }           
         }
 
         public int AssignDayId(Schedule schedule)
@@ -232,5 +216,36 @@ namespace TrashCollector.Controllers
             return schedule.DayId;
         }
 
+        public ActionResult ScheduleHold()
+        {
+            var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var customer = _context.Customers.Where(c => c.IdentityUserId == userId).SingleOrDefault();
+            return View(customer);
+        }
+
+        [HttpPost, ActionName("ScheduleHold")]
+        [ValidateAntiForgeryToken]
+
+        public ActionResult ScheduleHold(int id, Customer customer)
+        {
+            try
+            {
+                var user = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+                user.FirstName = customer.FirstName;
+                user.LastName = customer.LastName;
+                user.StreetAddress = customer.StreetAddress;
+                user.ZipCode = customer.ZipCode;
+                user.DayofWeek = customer.DayofWeek;
+                user.holdStart = customer.holdStart;
+                user.holdEnd = customer.holdEnd;
+                _context.SaveChanges();
+                return RedirectToAction(nameof(Index));
+            }
+
+            catch
+            {
+                return View();
+            }
+        }
     }
 }

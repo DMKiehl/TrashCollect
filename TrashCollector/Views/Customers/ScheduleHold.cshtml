@@ -1,0 +1,45 @@
+﻿@model TrashCollector.Models.Customer
+
+@{
+    ViewData["Title"] = "ScheduleHold";
+}
+
+<h1>ScheduleHold</h1>
+
+<h4>Customer</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="ScheduleHold">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="FirstName" />
+            <input type="hidden" asp-for="LastName" />
+            <input type="hidden" asp-for="StreetAddress" />
+            <input type="hidden" asp-for="ZipCode" />
+            <input type="hidden" asp-for="DayofWeek" />
+            <input type="hidden" asp-for="BillTotal" />
+
+            <div class="form-group">
+                <label asp-for="holdStart" class="control-label"></label>
+                <input asp-for="holdStart" class="form-control" />
+                <span asp-validation-for="holdStart" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="holdEnd" class="control-label"></label>
+                <input asp-for="holdEnd" class="form-control" />
+                <span asp-validation-for="holdEnd" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="IdentityUserId" />
+            
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
