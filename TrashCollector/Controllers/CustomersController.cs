@@ -166,8 +166,8 @@ namespace TrashCollector.Controllers
 
         public ActionResult SchedulePickUp()
         {
-            var names = _context.Days.Select(s => s.Name).ToList();
-            ViewBag.DayName = names;
+            //var names = _context.Days.Select(s => s.Name).ToList();
+            //ViewBag.DayName = names;
             Schedule schedule = new Schedule();
             return View();
         }
@@ -175,7 +175,7 @@ namespace TrashCollector.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
 
-        public ActionResult SchedulePickup(Schedule schedule)
+        public ActionResult SchedulePickUp(Schedule schedule)
         {
            
           
@@ -190,6 +190,7 @@ namespace TrashCollector.Controllers
                 schedule.CustomerId = id;
                 schedule.CustomerAddress = address;
                 schedule.CustomerZipCode = zipCode;
+                schedule.PickedUp = false;
                 _context.Schedules.Add(schedule);
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Schedule));
