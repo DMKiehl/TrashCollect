@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TrashCollector.Models.Schedule>
+﻿@model IEnumerable<TrashCollector.Models.Customer>
 
 @{
     ViewData["Title"] = "ViewSchedule";
@@ -7,36 +7,38 @@
 <h1>ViewSchedule</h1>
 
 <p>
-    <a asp-action="Index">Home Page</a>
+    <a asp-action="Create">Create New</a>
 </p>
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("Date", "ViewSchedule", new { sortOrder = ViewBag.NameSortParm })
-            </th>
-            @*<th>
-            @Html.DisplayNameFor(model => model.date)
-        </th>*@
-            @*<th>
-            @Html.DisplayNameFor(model => model.PickedUp)
-        </th>*@
-           
-            <th>
-                @Html.DisplayNameFor(model => model.CustomerAddress)
+                @Html.DisplayNameFor(model => model.FirstName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CustomerZipCode)
+                @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.customer)
+                @Html.DisplayNameFor(model => model.StreetAddress)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DayName)
+                @Html.DisplayNameFor(model => model.ZipCode)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.day)
-            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.DayofWeek)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BillTotal)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.holdStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.holdEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.IdentityUser)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -44,32 +46,37 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.date)
-            </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.PickedUp)
-            </td>*@
-            
-            <td>
-                @Html.DisplayFor(modelItem => item.CustomerAddress)
+                @Html.DisplayFor(modelItem => item.FirstName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerZipCode)
+                @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.CustomerId)
+                @Html.DisplayFor(modelItem => item.StreetAddress)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.DayName)
+                @Html.DisplayFor(modelItem => item.ZipCode)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.day.Id)
-            </td>*@
-            @*<td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DayofWeek)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BillTotal)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.holdStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.holdEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdentityUser.Id)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>*@
+            </td>
         </tr>
 }
     </tbody>

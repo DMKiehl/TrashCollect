@@ -18,7 +18,6 @@ namespace TrashCollector.Controllers
     {
         private readonly ApplicationDbContext _context;
         public DateTime today;
-        //public DateTime weekDay;
 
         public EmployeesController(ApplicationDbContext context)
         {
@@ -31,11 +30,6 @@ namespace TrashCollector.Controllers
         public ActionResult Index()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
-            var employeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).ToList();
-            if (employeeProfile.Count == 0)
-            {
-                return RedirectToAction("Create", "Employees");
-            }
 
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             return View(employee);
@@ -69,9 +63,6 @@ namespace TrashCollector.Controllers
             return View();
         }
 
-        // POST: Employees/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,ZipCode,IdentityUserId")] Employee employee)
@@ -82,66 +73,38 @@ namespace TrashCollector.Controllers
                 employee.IdentityUserId = userId;
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Schedule));
             }
             ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
             return View(employee);
         }
 
-        // GET: Employees/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var employee = await _context.Employees.FindAsync(id);
-            if (employee == null)
-            {
-                return NotFound();
-            }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
+            var employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
             return View(employee);
         }
 
-        // POST: Employees/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,FirstName,LastName,ZipCode,IdentityUserId")] Employee employee)
+        public ActionResult Edit(int id, Employee employee)
         {
-            if (id != employee.Id)
+            try
             {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(employee);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!EmployeeExists(employee.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                var user = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
+                user.FirstName = employee.FirstName;
+                user.LastName = employee.LastName;
+                user.ZipCode = employee.ZipCode;
+                _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["IdentityUserId"] = new SelectList(_context.Users, "Id", "Id", employee.IdentityUserId);
-            return View(employee);
+
+            catch
+            {
+                return View();
+            }
         }
 
-        // GET: Employees/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -178,8 +141,14 @@ namespace TrashCollector.Controllers
 
         public ActionResult Schedule()
         {
-            var weekday = today.DayOfWeek.ToString();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var employeeProfile = _context.Employees.Where(c => c.IdentityUserId == userId).ToList();
+            if (employeeProfile.Count == 0)
+            {
+                return RedirectToAction("Create", "Employees");
+            }
+
+            var weekday = today.DayOfWeek.ToString();
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
             var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.DayName == weekday).Where(s => s.PickedUp == false).AsEnumerable();
           

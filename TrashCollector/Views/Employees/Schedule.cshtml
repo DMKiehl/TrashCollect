@@ -18,13 +18,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.PickedUp)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.holdStart)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.holdEnd)
-            </th>*@
-            <th>
+                      <th>
                 @Html.DisplayNameFor(model => model.CustomerAddress)
             </th>
             <th>
@@ -36,9 +30,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.DayName)
             </th>
-            @*<th>
-                @Html.DisplayNameFor(model => model.day)
-            </th>*@
+          
             <th></th>
         </tr>
     </thead>
@@ -48,18 +40,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.date.Date)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.PickedUp)
-            </td>*@ 
+           
             <td>
                 <a asp-action="PickedUp" asp-route-id="@item.Id">Mark As Complete</a>
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.holdStart.Date)
-            </td> 
-            <td>
-                @Html.DisplayFor(modelItem => item.holdEnd.Date)
-            </td>*@
+           
             <td>
                 @Html.DisplayFor(modelItem => item.CustomerAddress)
             </td>
@@ -72,12 +57,7 @@
             <td>
                 @Html.DisplayFor(modelItem => item.DayName)
             </td>
-            @*<td>
-                @Html.DisplayFor(modelItem => item.DayId)
-            </td>*@
-            @*<td>
-                <asp:Button id="PickedUp" runat="server" Text="Picked Up" OnClick="PickedUp"/>
-            </td>*@
+           
         </tr>
 }
     </tbody>
