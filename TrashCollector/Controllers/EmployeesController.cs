@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
+using AspNetCore;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -148,9 +149,10 @@ namespace TrashCollector.Controllers
                 return RedirectToAction("Create", "Employees");
             }
 
+            PrepareDailySchedule();
             var weekday = today.DayOfWeek.ToString();
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.DayName == weekday).Where(s => s.PickedUp == false).AsEnumerable();
+            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).Where(s => s.date == today.Date).Where(s => s.PickedUp == false).AsEnumerable();
           
 
             return View(display);
@@ -190,6 +192,64 @@ namespace TrashCollector.Controllers
             _context.SaveChanges();
             return RedirectToAction(nameof(Schedule));
            
+        }
+
+        public void PrepareDailySchedule()
+        {
+            var weekday = today.DayOfWeek.ToString();
+            var customers = _context.Customers.Where(c => c.DayofWeek == weekday).AsEnumerable();
+
+
+            foreach (var item in customers)
+            {
+                //if (item.holdStart == today.Date || (item.holdStart < today.Date && today.Date <= item.holdEnd))
+                //{
+                //    customers.Remove(item);
+                //}
+
+                Schedule schedule = new Schedule();
+                schedule.date = today.Date;
+                schedule.PickedUp = false;
+                schedule.CustomerId = item.Id;
+                schedule.CustomerAddress = item.StreetAddress;
+                schedule.CustomerZipCode = item.ZipCode;
+                schedule.DayId = AssignDayIdEmployee(item.DayofWeek);
+                schedule.DayName = item.DayofWeek;
+                _context.Schedules.Add(schedule);
+
+            }
+            _context.SaveChanges();
+
+        }
+
+        public int AssignDayIdEmployee(String day)
+        {
+            int dayId = 0;
+            switch (day)
+            {
+                case "Sunday":
+                     dayId= 1;
+                    break;
+                case "Monday":
+                    dayId = 2;
+                    break;
+                case "Tuesday":
+                    dayId = 3;
+                    break;
+                case "Wednesday":
+                    dayId = 4;
+                    break;
+                case "Thursday":
+                    dayId = 5;
+                    break;
+                case "Friday":
+                    dayId = 6;
+                    break;
+                case "Saturday":
+                    dayId = 7;
+                    break;
+            }
+            return dayId;
         }
     }
 }
