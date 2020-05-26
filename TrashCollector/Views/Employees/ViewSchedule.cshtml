@@ -9,6 +9,13 @@
 <p>
     
 </p>
+@using (Html.BeginForm())
+{
+    <p>
+        Find by Day: @Html.TextBox("SearchString")
+        <input type= "submit" value="Search" />
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -25,8 +32,11 @@
                 @Html.DisplayNameFor(model => model.ZipCode)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.DayofWeek)
+                @Html.ActionLink("Day", "ViewSchedule", new { sortOrder = ViewBag.NameSortParm})
             </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.DayofWeek)
+            </th>*@
             <th>
                 @Html.DisplayNameFor(model => model.BillTotal)
             </th>

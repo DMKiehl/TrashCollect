@@ -80,7 +80,7 @@ namespace TrashCollector.Controllers
             return View(employee);
         }
 
-        public ActionResult Edit(int? id)
+        public ActionResult Edit(int id)
         {
             var employee = _context.Employees.Where(e => e.Id == id).SingleOrDefault();
             return View(employee);
@@ -158,25 +158,31 @@ namespace TrashCollector.Controllers
             return View(display);
         }
 
-        public ActionResult ViewSchedule(string sortOrder)
+        public ActionResult ViewSchedule(string sortOrder, string searchString)
         {
             var weekday = today.DayOfWeek.ToString();
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
             var employee = _context.Employees.Where(c => c.IdentityUserId == userId).SingleOrDefault();
-            var display = _context.Schedules.Where(s => s.CustomerZipCode == employee.ZipCode).AsEnumerable();
-            //ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
-            ViewBag.DateSortParm = sortOrder == "Date" ? "date_desc" : "Date";
+            var display = _context.Customers.Where(s => s.ZipCode == employee.ZipCode).AsEnumerable();
+            ViewBag.NameSortParm = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewBag.DateSortParm = sortOrder == "Day" ? "name_desc" : "Day";
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                display = display.Where(d => d.DayofWeek.Contains(searchString));
+            }
             
             switch (sortOrder)
             {
-                case "Date":
-                    display = display.OrderBy(s => s.date);
+               
+                case "Day":
+                    display = display.OrderBy(s => s.DayofWeek);
                     break;
-                case "date_desc":
-                    display = display.OrderByDescending(s => s.date);
+                case "name_desc":
+                    display = display.OrderByDescending(s => s.DayofWeek);
                     break;
                 default:
-                     display = display.OrderBy(s => s.CustomerAddress);
+                     display = display.OrderBy(s => s.LastName);
                     break;
             }
             return View(display);
@@ -189,8 +195,9 @@ namespace TrashCollector.Controllers
             var customer = _context.Customers.Where(c => c.Id == schedule.CustomerId).SingleOrDefault();
             schedule.PickedUp = true;
             customer.BillTotal += 10;
+            //_context.Schedules.Remove(schedule);
             _context.SaveChanges();
-            return RedirectToAction(nameof(Schedule));
+            return RedirectToAction(nameof(DailySchedule));
            
         }
 
