@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
@@ -18,12 +19,14 @@ namespace TrashCollector.Controllers
     {
         private readonly ApplicationDbContext _context;
         public DateTime today;
+        public static readonly HttpClient httpClient = new HttpClient();
         
 
         public CustomersController(ApplicationDbContext context)
         {
             _context = context;
             today = DateTime.Today;
+            
             
         }
 
@@ -68,12 +71,30 @@ namespace TrashCollector.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetAddress,ZipCode,BillTotal,IdentityUserId")] Customer customer)
+        public async Task<IActionResult> Create([Bind("Id,FirstName,LastName,StreetAddress,ZipCode,BillTotal,IdentityUserId,City,State")] Customer customer)
         {
             if (ModelState.IsValid)
             {
                 var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
                 customer.IdentityUserId = userId;
+
+                var address = customer.StreetAddress + ", " + customer.City + ", " + customer.State;
+                string url = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
+
+                //HttpClient class -- C# class that handles Http web requests. this is where you can make your geocoding request
+                HttpResponseMessage response = await httpClient.GetAsync(string.Format(url, address));
+                string result = await response.Content.ReadAsStringAsync();
+                //HttpResponseMessage -- C# class that handles the response object coming back from the Google endpoint
+              
+
+                //Run Google Geocoder API logic here
+                //Then update Customer properties accordingly (lat and lng)
+
+                //customer.latitude = result.
+                //customer.longitude = ;
+
+
+
                 _context.Add(customer);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));

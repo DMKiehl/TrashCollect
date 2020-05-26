@@ -286,6 +286,8 @@ namespace TrashCollector.Controllers
 
         public ActionResult Map(int id)
         {
+            
+
             var customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
             return View(customer);
            
