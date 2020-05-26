@@ -13,7 +13,7 @@ using TrashCollector.Models;
 
 namespace TrashCollector.Controllers
 {
-    [Authorize(Roles = "Customer")]
+    
     public class CustomersController : Controller
     {
         private readonly ApplicationDbContext _context;

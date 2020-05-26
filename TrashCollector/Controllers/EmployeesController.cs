@@ -140,6 +140,7 @@ namespace TrashCollector.Controllers
             return _context.Employees.Any(e => e.Id == id);
         }
 
+        //query and display the daily schedule in the employees zipcode
         public ActionResult Schedule()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -158,6 +159,7 @@ namespace TrashCollector.Controllers
             return View(display);
         }
 
+        //view all the customers and their pick up days
         public ActionResult ViewSchedule(string sortOrder, string searchString)
         {
             var weekday = today.DayOfWeek.ToString();
@@ -270,6 +272,7 @@ namespace TrashCollector.Controllers
             return dayId;
         }
 
+        //display the daily schedule after it has been queried.
         public ActionResult DailySchedule()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
@@ -279,6 +282,13 @@ namespace TrashCollector.Controllers
 
 
             return View(display);
+        }
+
+        public ActionResult Map(int id)
+        {
+            var customer = _context.Customers.Where(c => c.Id == id).SingleOrDefault();
+            return View(customer);
+           
         }
     }
 }

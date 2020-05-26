@@ -62,7 +62,8 @@
                 @Html.DisplayFor(modelItem => item.LastName)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StreetAddress)
+                <a asp-action="Map" asp-route-id="@item.Id">@Html.DisplayFor(modelItem => item.StreetAddress)</a>
+                
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.ZipCode)
