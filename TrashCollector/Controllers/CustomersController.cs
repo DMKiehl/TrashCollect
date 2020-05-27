@@ -82,10 +82,10 @@ namespace TrashCollector.Controllers
                 customer.IdentityUserId = userId;
 
                 var address = customer.StreetAddress + ", " + customer.City + ", " + customer.State;
-                //string url = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
+                
 
                 
-                HttpResponseMessage response = await httpClient.GetAsync("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
+                HttpResponseMessage response = await httpClient.GetAsync("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=" + APIKey.Key);
                 var result = await response.Content.ReadAsStringAsync();
                 var parseResult = JObject.Parse(result);
                 var lat = parseResult["results"][0]["geometry"]["location"]["lat"].Value<double>();
