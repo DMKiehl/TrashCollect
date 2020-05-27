@@ -140,7 +140,7 @@ namespace TrashCollector.Controllers
             return _context.Employees.Any(e => e.Id == id);
         }
 
-        //query and display the daily schedule in the employees zipcode
+        //query and display the daily schedule in the employees zipcode upon login
         public ActionResult Schedule()
         {
             var userId = this.User.FindFirstValue(ClaimTypes.NameIdentifier);
