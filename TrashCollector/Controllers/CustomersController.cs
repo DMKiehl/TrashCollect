@@ -4,11 +4,14 @@ using System.Linq;
 using System.Net.Http;
 using System.Security.Claims;
 using System.Security.Cryptography;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using TrashCollector.Data;
 using TrashCollector.Models;
 
@@ -79,19 +82,21 @@ namespace TrashCollector.Controllers
                 customer.IdentityUserId = userId;
 
                 var address = customer.StreetAddress + ", " + customer.City + ", " + customer.State;
-                string url = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
+                //string url = ("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
 
-                //HttpClient class -- C# class that handles Http web requests. this is where you can make your geocoding request
-                HttpResponseMessage response = await httpClient.GetAsync(string.Format(url, address));
-                string result = await response.Content.ReadAsStringAsync();
-                //HttpResponseMessage -- C# class that handles the response object coming back from the Google endpoint
-              
+                
+                HttpResponseMessage response = await httpClient.GetAsync("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
+                var result = await response.Content.ReadAsStringAsync();
+                var parseResult = JObject.Parse(result);
+                var lat = parseResult["results"][0]["geometry"]["location"]["lat"].Value<float>();
+                var longitude = parseResult["results"][0]["geometry"]["location"]["lng"].Value<float>();
 
-                //Run Google Geocoder API logic here
+
                 //Then update Customer properties accordingly (lat and lng)
 
-                //customer.latitude = result.
-                //customer.longitude = ;
+
+                customer.latitude = lat;
+                customer.longitude = longitude;
 
 
 
@@ -122,6 +127,8 @@ namespace TrashCollector.Controllers
                 user.StreetAddress = customer.StreetAddress;
                 user.ZipCode = customer.ZipCode;
                 user.DayofWeek = customer.DayofWeek;
+                user.City = customer.City;
+                user.State = customer.State;
                 _context.SaveChanges();
                 return RedirectToAction(nameof(Index));
 
