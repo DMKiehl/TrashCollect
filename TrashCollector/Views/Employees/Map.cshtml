@@ -3,36 +3,43 @@
 @{
     ViewData["Title"] = "Map";
 }
-<style>
-    #map {
-        height: 500px;
-    }
-</style>
-<br />
-<br />
-<h1>Map</h1>
-
-<br />
-<div id="map"></div>
-
-<script>
-    var map;
-    function initMap(zoomeLevel, latDb, longDb) {
-        map = new google.maps.Map(document.getElementById('map'), {
-            center: { lat: @Model.latitude, lng: @Model.longitude },
-            zoom: zoomeLevel != null ? zoomeLevel : 6
-        });
-
+    <head>
+        <style>
+            #map {
+                height: 100%;
+            }
+        </style>
+       
         
 
-        marker = new google.maps.Marker({
-            position: { lat: @Model.latitude, lng: @Model.longitude },
-            map: map
-        });
+    </head>
+    <body>
+        <h1>Map</h1>
 
-        infoWindow = new google.maps.InfoWindow;
+        <br />
+        <div id="map"></div>
+        <script>
+            var map;
+            function initMap() {
+                map = new google.maps.Map(document.getElementById('map'), {
+                    center: { lat: '@Model.latitude', lng: '@Model.longitude' },
+                    zoom: 15
+                });
 
-    //    // Try HTML5 geolocation.
+                marker = new google.maps.Marker({
+                    position: { lat: '@Model.latitude', lng: '@Model.longitude' },
+                    map: map
+                });
+            }
+        </script>
+
+
+
+        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q&callback=initMap" async defer></script>
+    </body>
+
+
+    @*//    // Try HTML5 geolocation.
     //    if (navigator.geolocation) {
     //        navigator.geolocation.getCurrentPosition(function (position) {
     //            var pos = {
@@ -94,10 +101,9 @@
     //            }
     //        })(marker, i));
     //    })
-    //}
-</script>
+    //}*@
+       
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q&callback=initMap" async defer></script>
-
+       
 
 

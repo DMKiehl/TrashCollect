@@ -88,8 +88,8 @@ namespace TrashCollector.Controllers
                 HttpResponseMessage response = await httpClient.GetAsync("https://maps.googleapis.com/maps/api/geocode/json?address=" + address + "&key=AIzaSyDa7YADatqC-ikFP7JAmoeQntbDy4Qm93Q");
                 var result = await response.Content.ReadAsStringAsync();
                 var parseResult = JObject.Parse(result);
-                var lat = parseResult["results"][0]["geometry"]["location"]["lat"].Value<float>();
-                var longitude = parseResult["results"][0]["geometry"]["location"]["lng"].Value<float>();
+                var lat = parseResult["results"][0]["geometry"]["location"]["lat"].Value<double>();
+                var longitude = parseResult["results"][0]["geometry"]["location"]["lng"].Value<double>();
 
 
                 //Then update Customer properties accordingly (lat and lng)

@@ -18,8 +18,8 @@ namespace TrashCollector.Models
         public string City { get; set; }
         public string State { get; set; }
         public int ZipCode { get; set; }
-        public float latitude { get; set; }
-        public float longitude { get; set; }
+        public double latitude { get; set; }
+        public double longitude { get; set; }
 
         public string DayofWeek { get; set; }
 
